@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/glauber/devops-full/vagrant-lab","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}},"virtualbox":{"/home/vagrant/data_guest":{"create":true,"guestpath":"/home/vagrant/data_guest","hostpath":"/home/glauber/devops-full/vagrant-lab/html","disabled":false,"__vagrantfile":true}}}
