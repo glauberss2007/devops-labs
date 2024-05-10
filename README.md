@@ -1,7 +1,7 @@
 # devops-full
 ![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/e3cb9b54-45c7-4fc9-bd36-ec25becc3dfd)
 
-## Vagrant
+## Vagrant lab
 Vagrant is an open-source tool for building and managing virtualized development environments. It simplifies the process of creating reproducible, portable, and shareable development environments.
 
 ### Key Features:
@@ -18,8 +18,6 @@ Vagrant is an open-source tool for building and managing virtualized development
 2. Create a Vagrantfile to define your development environment.
 3. Use Vagrant commands to manage and interact with your virtualized environment.
 
-For detailed documentation and examples, visit the [Vagrant website](https://www.vagrantup.com/).
-
 ## Git 
 ### Git: Summary of Key Commands
 
@@ -33,7 +31,7 @@ For detailed documentation and examples, visit the [Vagrant website](https://www
 - **Upload Local Changes:** Upload local changes to the remote repository using `git push`.
 - **Check Repository Status:** Verify the status of the repository using `git status` to see what is in the staging area or already committed.
 
-## Ansible
+## Ansible lab
 Ansible is an open-source automation platform designed for simplifying IT orchestration, configuration management, and application deployment tasks.
 
 ### Key Features:
@@ -46,56 +44,8 @@ Ansible is an open-source automation platform designed for simplifying IT orches
 - **Roles:** Organizes and reuses sets of tasks, promoting code modularity and maintainability.
 - **Integration:** Seamlessly integrates with version control systems, CI tools, and cloud platforms.
 
-### Use Cases:
-
-- **Configuration Management:** Automate setup and configuration of servers and network devices.
-- **Application Deployment:** Automate deployment and scaling of applications across environments.
-- **Orchestration:** Coordinate complex workflows involving multiple systems and services.
-- **Compliance Automation:** Ensure adherence to security and compliance standards.
-
-Ansible's simplicity, flexibility, and strong community support make it a popular choice for organizations seeking to streamline IT operations and adopt infrastructure as code practices.
-
-## Architecture - Ansible Setup and Communication Overview
-
-### Machine Types:
-- **Control Node:** This is where Ansible is installed and operated from.
-- **Managed Hosts:** These are the machines or devices that Ansible manages.
-
-### Managed Host Configuration:
-- **Host Inventory:** Create a text file on the control node containing the list of managed hosts' IPs or hostnames.
-  - This file specifies the machines or devices to be managed by Ansible.
-- **Communication Protocol:** Ansible communicates with managed hosts via SSH.
-  - No additional software needs to be installed on the managed hosts.
-
-## Architecture - Ansible Components and Communication Overview
-
 ![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/4150de89-d275-4451-a95a-95773fe3d11b)
 
-- **Core Modules:** These modules perform the majority of the system administration tasks on the operating system.
-- **Custom Modules:** Extend Ansible's functionality by creating custom components using Python.
-- **Playbooks:** YAML-formatted text files with a predefined syntax for configuring Ansible modules.
-- **Plugins:** Extensions that add extra functionality such as sending messages or emails.
-- **Host Inventory::** A text file on the control node containing the list of managed hosts' IPs or hostnames.
-  - This file specifies the machines or devices to be managed by Ansible.
-- **Ansible Galaxy:** A website that provides a collection of roles (tasks) developed by the community.
-- **Communication Protocol:** Ansible communicates with managed hosts via SSH.
-  - No additional software needs to be installed on the managed hosts.
- 
-## Architecture - Ansible Control Node and Managed Host Requirements
-
-### Control Node:
-- **Description:** DevOps (sysadmins) access and initiate operations through the Control Node.
-- **Requirements:**
-  - Python (2.7 or 3.5 or higher)
-  - Supported Operating Systems: Red Hat, CentOS, Debian, macOS (BSD-like), etc.
-    - Windows is not supported.
-
-### Managed Host:
-- **Description:** Users log in, install modules, and execute commands remotely on managed hosts.
-- **Requirements:**
-  - SSH enabled
-  - Python 2.4 or higher
- 
 ## Architecture - Ansible Playbooks
   
 ### APP01:
@@ -123,6 +73,73 @@ The folder and file structure can be founded into this repository. Based on the 
 ### Steps:
 1. Navigate to each directory corresponding to the server.
 2. Execute `vagrant init` in each directory.
+
+## Docker lab
+
+Docker is a platform designed to make it easier to create, deploy, and run applications using containers. Containers allow a developer to package up an application with all of its dependencies, such as libraries and other components, and ship it all out as one package. This ensures that the application will run consistently across various computing environments.
+
+### Steps
+The objective is to set up a server environment using Vagrant (docker-lab), install Docker within this environment using the provided provision.sh script, utilize two Docker images - one for the database and another for the application, expose ports 8080 and 3306 for the application and database respectively, and establish a connection between a Java service (notes) and the database.
+
+### Setting Up Internal Network and MariaDB Container
+
+To accomplish this task, follow these steps:
+
+- Run the following command to create an internal network named `devops`:
+     ```
+     docker network create devops
+     ```
+- Create the directory `/root/docker/mariadb/datadir` on your host machine. This directory will serve as the persistent data storage for MariaDB.
+
+- Launch a MariaDB container named `mariadb` with the following command:
+     ```
+     docker run --net devops --name mariadb -v /root/docker/mariadb/datadir:/var/lib/mysql -e MARIADB_ROOT_PASSWORD=devopsmaonamassa -e MARIADB_DATABASE=notes -d mariadb:latest
+     ```
+     This command creates a container named `mariadb` connected to the `devops` network, mounts the `/root/docker/mariadb/datadir` directory on the host to `/var/lib/mysql` in the container for persistent data storage, sets the root password to `devopsmaonamassa`, and creates a database named `notes`.
+
+- To access the MariaDB container, run the following command:
+     ```
+     docker exec -it mariadb /bin/bash
+     ```
+- Once inside the container, connect to the MariaDB server using the following command:
+     ```
+     mysql -uroot -pdevopsmaonamassa
+     ```
+- After logging in, you can verify that the `notes` database has been created by running the following commands:
+     ```
+     show databases;
+     use notes;
+     show tables;
+     ```
+- This ensures that the MariaDB container is properly set up and the `notes` database is available for use.
+
+### Dockerizing Notes Application with OpenJDK
+
+Create a Dockerfile with the following content:
+
+```Dockerfile
+FROM openjdk:8-jdk-alpine
+RUN addgroup -S notes && adduser -S notes -G notes
+USER notes:notes
+ARG JAR_FILE=*.jar
+COPY ${JAR_FILE} easy-note.jar
+COPY application.properties application.properties
+ENTRYPOINT ["java","-jar","/easy-note.jar"]
+```
+
+Build the image:
+
+```
+docker build -t devops/notes-docker .
+```
+
+Start the container
+
+```
+docker run --network devops --hostname app -p 8080:8080 -d devops/notes-docker
+```
+
+
 
 
 
