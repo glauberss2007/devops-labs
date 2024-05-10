@@ -2,8 +2,6 @@
 ![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/e3cb9b54-45c7-4fc9-bd36-ec25becc3dfd)
 
 ## Vagrant
-![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/e8bb634d-e095-4d1a-8b16-8394caac71d6)
-
 Vagrant is an open-source tool for building and managing virtualized development environments. It simplifies the process of creating reproducible, portable, and shareable development environments.
 
 ### Key Features:
@@ -23,8 +21,6 @@ Vagrant is an open-source tool for building and managing virtualized development
 For detailed documentation and examples, visit the [Vagrant website](https://www.vagrantup.com/).
 
 ## Git 
-![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/6f8fcf53-0260-4cf5-ab07-c50ea800caf7)
-
 ### Git: Summary of Key Commands
 
 1. **Create a Repository (GitHub):**
@@ -54,12 +50,7 @@ For detailed documentation and examples, visit the [Vagrant website](https://www
 9. **Check Repository Status:**
    - Verify the status of the repository using `git status` to see what is in the staging area or already committed.
 
-![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/f5f9ed2d-4f8c-4a3e-a03b-e2aa6e340975)
-
 ## Ansible
-
-![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/da195ca4-e683-40f9-86b0-9aef4e01ee94)
-
 Ansible is an open-source automation platform designed for simplifying IT orchestration, configuration management, and application deployment tasks.
 
 ### Key Features:
@@ -101,7 +92,6 @@ Ansible's simplicity, flexibility, and strong community support make it a popula
 ## Architecture - Ansible Components and Communication Overview
 
 ![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/4150de89-d275-4451-a95a-95773fe3d11b)
-
 
 ### Core Modules:
 - **Description:** These modules perform the majority of the system administration tasks on the operating system.
