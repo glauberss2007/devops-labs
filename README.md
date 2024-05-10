@@ -1,8 +1,6 @@
 # devops-full
 ![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/e3cb9b54-45c7-4fc9-bd36-ec25becc3dfd)
 
-Stack used
-
 ## Vagrant
 ![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/e8bb634d-e095-4d1a-8b16-8394caac71d6)
 
@@ -101,6 +99,9 @@ Ansible's simplicity, flexibility, and strong community support make it a popula
   - No additional software needs to be installed on the managed hosts.
 
 ## Architecture - Ansible Components and Communication Overview
+
+![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/4150de89-d275-4451-a95a-95773fe3d11b)
+
 
 ### Core Modules:
 - **Description:** These modules perform the majority of the system administration tasks on the operating system.
