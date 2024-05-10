@@ -23,32 +23,15 @@ For detailed documentation and examples, visit the [Vagrant website](https://www
 ## Git 
 ### Git: Summary of Key Commands
 
-1. **Create a Repository (GitHub):**
-   - Create a new repository on GitHub to store your project.
-
-2. **Install Git on Your Local Machine:**
-   - Install Git on your local machine to start using the version control system.
-
-3. **Initialize a Local Repository:**
-   - Use the `git init` command to initialize a new repository locally or `git clone` to clone an existing repository.
-
-4. **Add Remote Origin:**
-   - Execute the `git remote add origin` command followed by the URL of the remote repository on GitHub to add a remote origin.
-
-5. **Retrieve Remote Data:**
-   - Use `git pull` to retrieve remote data and incorporate it into your local repository.
-
-6. **Add Files to the Repository:**
-   - Use `git add` to stage files for commit and add them to the repository.
-
-7. **Commit Changes:**
-   - Commit changes using `git commit` to save staged changes to the repository.
-
-8. **Upload Local Changes:**
-   - Upload local changes to the remote repository using `git push`.
-
-9. **Check Repository Status:**
-   - Verify the status of the repository using `git status` to see what is in the staging area or already committed.
+- **Create a Repository (GitHub):**Create a new repository on GitHub to store your project.
+- **Install Git on Your Local Machine:** Install Git on your local machine to start using the version control system.
+- **Initialize a Local Repository:** Use the `git init` command to initialize a new repository locally or `git clone` to clone an existing repository.
+- **Add Remote Origin:** Execute the `git remote add origin` command followed by the URL of the remote repository on GitHub to add a remote origin.
+- **Retrieve Remote Data:** Use `git pull` to retrieve remote data and incorporate it into your local repository.
+- **Add Files to the Repository:** Use `git add` to stage files for commit and add them to the repository.
+- **Commit Changes:** Commit changes using `git commit` to save staged changes to the repository.
+- **Upload Local Changes:** Upload local changes to the remote repository using `git push`.
+- **Check Repository Status:** Verify the status of the repository using `git status` to see what is in the staging area or already committed.
 
 ## Ansible
 Ansible is an open-source automation platform designed for simplifying IT orchestration, configuration management, and application deployment tasks.
@@ -78,14 +61,9 @@ Ansible's simplicity, flexibility, and strong community support make it a popula
 - **Control Node:** This is where Ansible is installed and operated from.
 - **Managed Hosts:** These are the machines or devices that Ansible manages.
 
-### Control Node Setup:
-- **Control Machine:** Install Ansible on this machine.
-
 ### Managed Host Configuration:
 - **Host Inventory:** Create a text file on the control node containing the list of managed hosts' IPs or hostnames.
   - This file specifies the machines or devices to be managed by Ansible.
-  
-### Communication Method:
 - **Communication Protocol:** Ansible communicates with managed hosts via SSH.
   - No additional software needs to be installed on the managed hosts.
 
@@ -93,26 +71,13 @@ Ansible's simplicity, flexibility, and strong community support make it a popula
 
 ![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/4150de89-d275-4451-a95a-95773fe3d11b)
 
-### Core Modules:
-- **Description:** These modules perform the majority of the system administration tasks on the operating system.
-  
-### Custom Modules:
-- **Description:** Extend Ansible's functionality by creating custom components using Python.
-  
-### Playbooks:
-- **Description:** YAML-formatted text files with a predefined syntax for configuring Ansible modules.
-  
-### Plugins:
-- **Description:** Extensions that add extra functionality such as sending messages or emails.
-  
-### Host Inventory:
-- **Description:** A text file on the control node containing the list of managed hosts' IPs or hostnames.
+- **Core Modules:** These modules perform the majority of the system administration tasks on the operating system.
+- **Custom Modules:** Extend Ansible's functionality by creating custom components using Python.
+- **Playbooks:** YAML-formatted text files with a predefined syntax for configuring Ansible modules.
+- **Plugins:** Extensions that add extra functionality such as sending messages or emails.
+- **Host Inventory::** A text file on the control node containing the list of managed hosts' IPs or hostnames.
   - This file specifies the machines or devices to be managed by Ansible.
-  
-### Ansible Galaxy:
-- **Description:** A website that provides a collection of roles (tasks) developed by the community.
-
-### Communication Method:
+- **Ansible Galaxy:** A website that provides a collection of roles (tasks) developed by the community.
 - **Communication Protocol:** Ansible communicates with managed hosts via SSH.
   - No additional software needs to be installed on the managed hosts.
  
