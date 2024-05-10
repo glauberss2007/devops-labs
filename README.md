@@ -139,6 +139,84 @@ Start the container
 docker run --network devops --hostname app -p 8080:8080 -d devops/notes-docker
 ```
 
+## Sonarqube lab
+SonarCube (formerly known as SonarQube) is an open-source platform for continuous inspection of code quality. It's designed to analyze and measure code quality, security vulnerabilities, and code smells in various programming languages. SonarCube provides detailed reports and insights to help developers and teams identify and address issues early in the development process.
+
+### Lab arquitecture
+
+![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/68e7d18a-fac0-4fe6-88a3-e27d473b9a48)
+
+- **Database Server**: This server hosts the database used by the application for storing data.
+- **Web Application**: This component consists of dashboards and reports accessible via the web interface.
+- **Compute Engine**: Responsible for processing the code analysis tasks.
+- **Search Server (ELK)**: This server hosts the ELK stack (Elasticsearch, Logstash, Kibana) for log management and analysis.
+
+### Instalation using vagrant and shell script
+
+1. Execute the vagrant file with the scrip bellow:
+
+Vagrantfile
+```
+Vagrant.configure("2") do |config|
+  # Specify the base box for the VM
+  config.vm.box = "centos/7" 
+  # Set the hostname for the VM
+  config.vm.hostname = "sonarqube"
+  # Forward port 9000 from the guest to port 9000 on the host
+  config.vm.network "forwarded_port", guest: 9000, host: 9000, host_ip: "127.0.0.1"
+  # Provision the VM using a shell script
+  config.vm.provision "shell", path: "provision.sh"
+  # Configure VirtualBox provider settings
+  config.vm.provider "virtualbox" do |v|
+    # Set the amount of memory for the VM
+    v.memory = 1024
+  end
+end
+```
+
+provsion.sh
+```
+#!/usr/bin/bash
+# Create a new user for SonarQube
+useradd sonar
+
+# Install required packages
+yum install wget unzip java-11-openjdk-devel -y
+
+# Download and extract SonarQube
+wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.1.0.47736.zip
+unzip sonarqube-9.1.0.47736.zip -d /opt/
+mv /opt/sonarqube-9.1.0.47736 /opt/sonarqube
+chown -R sonar:sonar /opt/sonarqube
+
+# Download and extract SonarScanner
+wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+unzip sonar-scanner-cli-4.6.2.2472-linux.zip -d /opt/sonar-scanner
+chown -R sonar:sonar /opt/sonar-scanner
+```
+
+### Initial config and analyses run
+**Initial Configuration**
+
+1. Initial Password: admin / admin
+2. Reset Default Password
+3. Manually Create Project
+4. Create redis-appSonarqube Project - Configure First Project
+5. Analyze Locally
+6. Name Token
+7. Copy Token
+
+**Runing sonar scanner**
+
+Copy the `redis-app` application to the server:
+1. Run `vagrant upload redis-app`.
+
+Execute SonarScanner:
+2. Run the following command using the login information:
+
+```
+sonar-scanner -Dsonar.projectKey=redis-app -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.login=##
+```
 
 
 
