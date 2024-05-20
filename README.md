@@ -240,54 +240,6 @@ To utilize the multibranch Jenkins feature:
 
 ![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/a69a74d0-b1db-4b64-af45-33fcfb5253ef)
 
-## Jenkins CD on Swarm
-
-Use Case:
-- Execute Deployment on Swarm
-- Spin up the manager (and optionally, another node)
-- Note 1: Change the port forward of the Manager if necessary.
-- Note 2: If the lab has been destroyed, it's necessary to initialize the Docker Swarm again:
-    - On the manager: `docker swarm init --advertise-addr 192.168.1.2`
-    - On worker1: `docker swarm join --token <TOKEN> 192.168.1.2:2377`
-- Enable SSH access on the manager:
-    - Edit `/etc/ssh/sshd_config` and uncomment the line `PasswordAuthentication yes`
-    - Restart the SSH service: `service sshd restart`
-
-Configuration on the server manager:
-- Installation of Git and JDK 8
-- Permission for the vagrant user to execute Docker: `sudo usermod -aG docker ${USER}`
-
-Configuration on the Jenkins server:
-- Log in to the manager as the jenkins user: `sudo -u jenkins -g jenkins ssh -v vagrant@192.168.1.2`
-- Configure an agent (manager node): 
-    - Navigate to Manage Jenkins -> Managed Nodes and Clouds -> New Node
-    - Name: swarm-manager
-    - Remote root directory: /home/vagrant
-    - Usage: Only build Jobs with label expressions matching this node
-    - Launch method: Launch agents via ssh
-    - Host: 192.168.1.2
-    - Credentials: Add a new credential (vagrant /vagrant)
-    - Host Key Verification: No verifying Strategy
-    - Save
-
-  Create a new Docker Compose for deployment and add a new stage in Jenkinsfile for deployment to Swarm.
-
-  ![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/dc200009-760b-4d1b-911a-26e5360cb8b9)
-
-
-  Validate if the deployment occurred correctly:
-     ```
-    docker service ls
-    ```
-
-- Scale the application to worker1 node:
-    ```
-    docker service scale app_app=2
-    ```
-- Validate containers on worker1:
-    ```
-    docker ps
-    ```
 ## Jenkins with nexus
 
 ![image](https://github.com/glauberss2007/devops-labs/assets/22028539/bdd74c52-a625-4f15-a9db-be88d44b5523)
