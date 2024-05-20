@@ -462,3 +462,46 @@ Push the Docker image to the Nexus repository:
 ```
 docker push localhost:8123/devops/app
 ```
+
+## Kubernets
+
+Initiate the machine used to deploy the k3s using the vragrant file.
+
+Install k3s on it:
+```
+curl -sfL https://get.k3s.io | sh -s - --cluster-init --tls-san 192.168.1.2 --node-ip 192.168.1.2 --nodeexternal-ip 192.168.1.2
+```
+
+Execute the shell script "optional" to install kubens and k8s autocomplete tool.
+
+Configure the private registry nexus created previoulsly by editing /etc/rancher/k3s/registries.yaml as bellow:
+
+```
+mirrors:
+ docker.io:
+  endpoint:
+   - "http://192.168.1.5:8123"
+configs:
+ "192.1668.1.5:8123":
+  auth:
+   username: USER
+   password: PASS	
+```
+
+Them start the nexus container and deploy the k3s manifests using:
+```
+kubectl apply -f redis-app.yaml
+```
+
+and confirm they are runing using:
+```
+kubectl get deployments -n devops
+kubectl get services -n devops
+kubectl get ingresses -n devops
+```
+
+## INtegrating Jenkins with k8s
+
+
+
+
