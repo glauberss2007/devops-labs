@@ -1,0 +1,17 @@
+# Global configuration for Prometheus
+global:
+  # Interval at which to scrape targets
+  scrape_interval: 15s
+  # Timeout for individual scrape requests
+  scrape_timeout: 10s
+  # Interval at which to evaluate rules
+  evaluation_interval: 15s
+
+# Scrape configurations for Prometheus
+scrape_configs:
+  # Configuration for scraping node metrics
+  - job_name: prometheus_node
+    # Static list of targets to scrape
+    static_configs:
+      # Targets to scrape node metrics from
+      - targets: ['192.168.1.6:9100']

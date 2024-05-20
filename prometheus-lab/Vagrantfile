@@ -1,0 +1,12 @@
+# Configure Vagrant
+Vagrant.configure("2") do |config|
+    # Use CentOS 7 as the base box
+    config.vm.box = "centos/7"
+  
+    # Create a private network with the specified IP address
+    config.vm.network "private_network", ip: "192.168.1.6"
+  
+    # Provision the VM using the shell script 'provision.sh'
+    config.vm.provision "shell", path: "provision.sh"
+  end
+  
