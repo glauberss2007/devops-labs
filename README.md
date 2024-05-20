@@ -1,4 +1,37 @@
-# Devops Labs
+# DevOps Labs
+
+This repository contains a series of labs aimed at practicing various DevOps concepts and tools.
+
+## Table of Contents
+
+- [Vagrant Lab](#vagrant-lab)
+- [Architecture - Ansible Playbooks](#architecture---ansible-playbooks)
+- [Docker Lab](#docker-lab)
+- [Sonarqube Lab](#sonarqube-lab)
+- [Jenkins Lab](#jenkins-lab)
+- [Jenkins with Sonarqube](#jenkins-with-sonarqube)
+- [Multibranch Jenkins](#multibranch-jenkins)
+- [Jenkins CD on Swarm](#jenkins-cd-on-swarm)
+- [Jenkins with Nexus](#jenkins-with-nexus)
+- [Kubernetes](#kubernets)
+- [Integrate Jenkins with Kubernetes](#integrate-jenkins-with-k8s)
+- [Git Strategies](#git-strategies)
+- [Monitoring and Observability](#monitoring-and-observability)
+
+## Summary
+
+The DevOps labs cover a wide range of topics including infrastructure provisioning, configuration management, containerization, continuous integration/continuous deployment (CI/CD), code quality analysis, and monitoring.
+
+Each lab provides step-by-step instructions for setting up environments, configuring tools, and performing various tasks related to DevOps practices. Key concepts covered include:
+
+- Using Vagrant to manage virtualized development environments.
+- Configuring infrastructure and application components with Ansible Playbooks.
+- Containerizing applications using Docker and managing containers.
+- Performing code quality analysis using Sonarqube.
+- Setting up continuous integration pipelines with Jenkins.
+- Integrating Jenkins with Sonarqube and Kubernetes.
+- Implementing Git strategies for version control.
+- Monitoring and observability using Prometheus and Grafana.
 
 ## Architecture - Ansible Playbooks
 
@@ -441,4 +474,15 @@ Ecevute the command, and check the result in board:
 stress --cpu 8 --io 4 --vm 2 --vm-bytes 128M --timeout 30s
 ```
 
+## References
 
+1. [Vagrant Documentation](https://www.vagrantup.com/docs)
+2. [Ansible Documentation](https://docs.ansible.com/ansible/latest/index.html)
+3. [Docker Documentation](https://docs.docker.com/)
+4. [Sonarqube Documentation](https://docs.sonarqube.org/latest/)
+5. [Jenkins Documentation](https://www.jenkins.io/doc/)
+6. [Kubernetes Documentation](https://kubernetes.io/docs/)
+7. [Grafana Documentation](https://grafana.com/docs/)
+8. [Prometheus Documentation](https://prometheus.io/docs/)
+9. [Git Documentation](https://git-scm.com/doc)
+10. [Semantic Versioning Specification](https://semver.org/)
