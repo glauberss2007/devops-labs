@@ -537,6 +537,60 @@ Create the devops namespace and execute the pipeline.
 
 Validate the application.
 
+## Git strategies
+
+### Trunk / Master Workflows (Alone)
+
+![image](https://github.com/glauberss2007/devops-labs/assets/22028539/bbf2202f-4925-4933-8b1b-e7dad9d47534)
+
+### Branch Workflow (Commom on business)
+
+![image](https://github.com/glauberss2007/devops-labs/assets/22028539/d757d14e-ad3f-4379-98bd-d23051fd6e0e)
+
+### Fork Workflow (Opensource projects)
+
+![image](https://github.com/glauberss2007/devops-labs/assets/22028539/ae5253fa-d05e-4389-abe2-2c8f56a4ed5c)
+
+### Git TAG (releases)
+
+Semantic based on MAJOR(caompatibility),MINOR(features),PATCH(bugs).
+
+Generate a tag:
+```
+git tag -a v1.0.0 -m "Release do novo componente”
+```
+
+Send the tag to remote:
+```
+git push origin v1.0.0
+```
+
+### Update jenkins file to use TAGs
+
+Add environment tag:
+```
+environment { TAG = sh(script: 'git describe --abbrev=0', , returnStdout: true).trim() }
+```
+
+Add TAG param to stage build:
+```
+§ sh 'docker build -t devops/app:${TAG} .'
+```
+
+Update the stage of image push to nexus:
+```
+sh 'docker tag devops/app:${TAG} ${NEXUS_URL}/devops/app:${TAG}'
+sh 'docker push ${NEXUS_URL}/devops/app:${TAG}'
+```
+
+### Update manifest onjects of k8s
+
+Update image tag on k3s/redis-app.yaml from devops/app:latest to devops/app:TAG.
+
+Add sed comand into k3s deploy stage to replace tags according to environment var:
+```
+sh "sed -i -e 's#TAG#${TAG}#' ./k3s/redis-app.yaml;"
+```
 
 
 
