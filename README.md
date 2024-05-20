@@ -1,10 +1,4 @@
-# devops labs
-
-## Vagrant lab
-
-1. Install Vagrant on your machine.
-2. Create a Vagrantfile to define your development environment.
-3. Use Vagrant commands to manage and interact with your virtualized environment.
+# Devops Labs
 
 ## Architecture - Ansible Playbooks
 
