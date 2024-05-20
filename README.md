@@ -592,5 +592,32 @@ Add sed comand into k3s deploy stage to replace tags according to environment va
 sh "sed -i -e 's#TAG#${TAG}#' ./k3s/redis-app.yaml;"
 ```
 
+## Monitoring and observability
+
+![image](https://github.com/glauberss2007/devops-labs/assets/22028539/adaf228e-76b3-43af-bada-c8efc1c244d5)
+
+Create VM using Vagrant
+
+Install prometheus using docker
+```
+docker run –d -p 9090:9090 -v /vagrant/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
+```
+Start monitor
+
+Install Grafana
+```
+docker run -d -p 3000:3000 --name grafana grafana/grafana:latest
+```
+Add prometheus datasource
+
+IMport dashboard
+
+### Stress test
+Install epel ``yum install epel-release`` and the stress using the command ``yum install stress``.
+
+Ecevute the command, and check the result in board:
+```
+stress --cpu 8 --io 4 --vm 2 --vm-bytes 128M --timeout 30s
+```
 
 
