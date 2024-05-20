@@ -115,47 +115,7 @@ sonar-scanner -Dsonar.projectKey=redis-app -Dsonar.sources=. -Dsonar.host.url=ht
 
 ![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/4f64ebf1-7488-42cf-b2e9-b531c888c953)
 
-```
-# Vagrantfile
-Vagrant.configure("2") do |config|
-  # Specify the base box as CentOS 7
-  config.vm.box = "centos/7"
-  
-  # Set the hostname for the VM as "jenkins"
-  config.vm.hostname = "jenkins"
-  
-  # Forward port 8080 from guest to host
-  config.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: "127.0.0.1"
-  
-  # Provision the VM using a shell script named "provision.sh"
-  config.vm.provision "shell", path: "provision.sh"
-  
-  # Configure memory allocation for the VM as 1024 MB
-  config.vm.provider "virtualbox" do |v|
-    v.memory = 1024
-  end
-end
-```
-
-```
-#!/usr/bin/env bash
-# Install Jenkins and its dependencies
-echo "Installing Jenkins and dependencies..."
-yum install -y java-1.8.0-openjdk
-
-# Add Jenkins repository
-curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
-sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
-
-# Install Jenkins
-sudo yum install jenkins -y
-
-# Start Jenkins service
-sudo systemctl start jenkins
-sudo systemctl enable jenkins
-```
-
-Access Jenkins at http://localhost:8080
+Execute the vagrantfile located at jenkins-lab folder and them access Jenkins at http://localhost:8080
 
 To retrieve the initial admin password, run:
 ```
@@ -164,7 +124,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
 Install the Plugins for GitHub and Maven.
 
-### Jobs
+### Job example
 ```
 pipeline {
     agent any 
@@ -178,14 +138,7 @@ pipeline {
 }
 ```
 
-Description of each step:
-
-- **Pipeline:** This directive is mandatory at the beginning of the script and defines the overall structure of the pipeline.
-- **Agent:** Specifies the node where the script will be executed.
-- **Stages:** Defines the different stages that the job will go through.
-- **Steps:** Contains the individual tasks to be executed within each stage of the pipeline. In this case, it simply prints 'Hello World'.
-
-### ci pipeline with jenkis
+### CI pipeline with jenkis
 
 ![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/f3e8ed75-472e-4368-ac76-b2f0c965736f)
 
@@ -197,7 +150,7 @@ Description of each step:
 5. Create a `teste-integracao.sh` script at the root of the repository.
 6. Create a Jenkins job.
 
-Teh jenkins file:
+The jenkins file is:
 ```
 pipeline {
 	agent any // Agent: Servidor que executa o pipeline (master)
