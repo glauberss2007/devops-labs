@@ -421,6 +421,44 @@ Configuration on the Jenkins server:
     ```
 ## Jenkins with nexus
 
+![image](https://github.com/glauberss2007/devops-labs/assets/22028539/bdd74c52-a625-4f15-a9db-be88d44b5523)
 
+### Create Docker Volume
 
+To create a Docker volume named `nexus-data`, run the following command:
 
+```
+docker volume create --name nexus-data
+```
+### Start the Nexus container
+
+```
+docker run -d -p 8091:8081 -p 8123:8123 --name nexus -v nexus-data:/nexus-data sonatype/nexus3
+```
+
+## Test image Upload, to nexus registry, via Command Line
+
+Build the Docker image:
+```
+docker build -t devops/app .
+```
+
+Log in to the Nexus registry:
+```
+docker login localhost:8123
+```
+
+Alternatively, you can log in using the command:
+```
+docker login -u USER -p PASS localhost:8123
+```
+
+Tag the Docker image:
+```
+docker tag devops/app:latest localhost:8123/devops/app
+```
+
+Push the Docker image to the Nexus repository:
+```
+docker push localhost:8123/devops/app
+```
