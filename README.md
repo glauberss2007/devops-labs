@@ -500,7 +500,42 @@ kubectl get services -n devops
 kubectl get ingresses -n devops
 ```
 
-## INtegrating Jenkins with k8s
+## Integrate Jenkins with k8s
+
+Install kubectl on the Jenkins Server
+
+```
+curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+```
+
+Configure Jenkins User with Login Permission
+```
+sudo usermod -s /bin/bash jenkins
+sudo su -s /bin/bash Jenkins
+```
+
+Add a deployment step for the application on Kubernetes as the last step:
+```
+stage('Apply Kubernetes files') {
+    steps{
+        sh '/usr/local/bin/kubectl apply -f ./k3s/redis.yaml'
+        sh '/usr/local/bin/kubectl apply -f ./k3s/redis-app.yaml'
+    }
+}
+```
+
+Copy /etc/rancher/k3s/k3s.yaml on the manager server to Jenkins at ~/.kube/config.
+
+Note: Replace localhost with 192.168.1.2.
+
+Create a k3s directory in the application's Git repository.
+
+Create redis.yaml and redis-app.yaml in the k3s directory.
+
+Create the devops namespace and execute the pipeline.
+
+Validate the application.
 
 
 
