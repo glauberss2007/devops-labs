@@ -6,20 +6,6 @@
 2. Create a Vagrantfile to define your development environment.
 3. Use Vagrant commands to manage and interact with your virtualized environment.
 
-## Git 
-
-- **Create a Repository (GitHub):**Create a new repository on GitHub to store your project.
-- **Install Git on Your Local Machine:** Install Git on your local machine to start using the version control system.
-- **Initialize a Local Repository:** Use the `git init` command to initialize a new repository locally or `git clone` to clone an existing repository.
-- **Add Remote Origin:** Execute the `git remote add origin` command followed by the URL of the remote repository on GitHub to add a remote origin.
-- **Retrieve Remote Data:** Use `git pull` to retrieve remote data and incorporate it into your local repository.
-- **Add Files to the Repository:** Use `git add` to stage files for commit and add them to the repository.
-- **Commit Changes:** Commit changes using `git commit` to save staged changes to the repository.
-- **Upload Local Changes:** Upload local changes to the remote repository using `git push`.
-- **Check Repository Status:** Verify the status of the repository using `git status` to see what is in the staging area or already committed.
-
-## Ansible lab
-
 ## Architecture - Ansible Playbooks
 
 ![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/4150de89-d275-4451-a95a-95773fe3d11b)
@@ -42,12 +28,10 @@
 - Port forwarding for application on port 8080
 - Port forwarding for database on port 3306
 
-The folder and file structure can be founded into this repository. Based on the following structure:
-
-![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/eb874f90-2fad-4848-9f8d-5bffdf0010e2)
+The folder and file structure can be founded into ansible-lab repository. Based on the following structure:
 
 ### Steps:
-1. Navigate to each directory corresponding to the server.
+1. Navigate to each directory corresponding to the servers.
 2. Execute `vagrant init` in each directory.
 
 ## Docker lab
@@ -86,26 +70,12 @@ To accomplish this task, follow these steps:
 
 ### Dockerizing Notes Application with OpenJDK
 
-Create a Dockerfile with the following content:
-
-```Dockerfile
-FROM openjdk:8-jdk-alpine
-RUN addgroup -S notes && adduser -S notes -G notes
-USER notes:notes
-ARG JAR_FILE=*.jar
-COPY ${JAR_FILE} easy-note.jar
-COPY application.properties application.properties
-ENTRYPOINT ["java","-jar","/easy-note.jar"]
-```
-
-Build the image:
-
+Use the Dockerfile into docker-lab folder in this repository to build the image:
 ```
 docker build -t devops/notes-docker .
 ```
 
 Start the container
-
 ```
 docker run --network devops --hostname app -p 8080:8080 -d devops/notes-docker
 ```
@@ -117,57 +87,9 @@ SonarCube (formerly known as SonarQube) is an open-source platform for continuou
 
 ![image](https://github.com/glauberss2007/devops-java-node-redis-mysql/assets/22028539/68e7d18a-fac0-4fe6-88a3-e27d473b9a48)
 
-- **Database Server**: This server hosts the database used by the application for storing data.
-- **Web Application**: This component consists of dashboards and reports accessible via the web interface.
-- **Compute Engine**: Responsible for processing the code analysis tasks.
-- **Search Server (ELK)**: This server hosts the ELK stack (Elasticsearch, Logstash, Kibana) for log management and analysis.
+Execute the vagrant file, located at sonarqube-lab folder, with the scrip bellow:
 
-### Instalation using vagrant and shell script
-
-1. Execute the vagrant file with the scrip bellow:
-
-Vagrantfile
-```
-Vagrant.configure("2") do |config|
-  # Specify the base box for the VM
-  config.vm.box = "centos/7" 
-  # Set the hostname for the VM
-  config.vm.hostname = "sonarqube"
-  # Forward port 9000 from the guest to port 9000 on the host
-  config.vm.network "forwarded_port", guest: 9000, host: 9000, host_ip: "127.0.0.1"
-  # Provision the VM using a shell script
-  config.vm.provision "shell", path: "provision.sh"
-  # Configure VirtualBox provider settings
-  config.vm.provider "virtualbox" do |v|
-    # Set the amount of memory for the VM
-    v.memory = 1024
-  end
-end
-```
-
-provsion.sh
-```
-#!/usr/bin/bash
-# Create a new user for SonarQube
-useradd sonar
-
-# Install required packages
-yum install wget unzip java-11-openjdk-devel -y
-
-# Download and extract SonarQube
-wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.1.0.47736.zip
-unzip sonarqube-9.1.0.47736.zip -d /opt/
-mv /opt/sonarqube-9.1.0.47736 /opt/sonarqube
-chown -R sonar:sonar /opt/sonarqube
-
-# Download and extract SonarScanner
-wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
-unzip sonar-scanner-cli-4.6.2.2472-linux.zip -d /opt/sonar-scanner
-chown -R sonar:sonar /opt/sonar-scanner
-```
-
-### Initial config and analyses run
-**Initial Configuration**
+**Initial Configuration Parameters**
 
 1. Initial Password: admin / admin
 2. Reset Default Password
