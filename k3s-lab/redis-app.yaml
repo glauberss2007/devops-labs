@@ -1,0 +1,82 @@
+# Define a Deployment for the Redis application in the 'devops' namespace
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # Name of the Deployment
+  name: redis-app-deployment
+  # Namespace where the Deployment will be created
+  namespace: devops
+spec:
+  # Define the number of replicas to 2
+  replicas: 2
+  # Define the pod selector to identify pods managed by this Deployment
+  selector:
+    matchLabels:
+      app: redis-app
+  # Template for the pods managed by the Deployment
+  template:
+    metadata:
+      # Labels to identify the pods
+      labels:
+        app: redis-app
+    spec:
+      # Containers in the pod
+      containers:
+        - name: devops-app
+          # Docker image to be used for the application
+          image: devops/app:latest
+          # Resources requested by the container
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          # Ports exposed by the container
+          ports:
+          - containerPort: 8081
+
+# Define a Service to access the Redis application in the 'devops' namespace
+apiVersion: v1
+kind: Service
+metadata:
+  # Name of the Service
+  name: redis-app
+  # Namespace where the Service will be created
+  namespace: devops
+spec:
+  # Define the ports exposed by the Service
+  ports:
+  - port: 8081
+    targetPort: 8081
+    name: tcp
+  # Selects pods with the label app=redis-app
+  selector:
+    app: redis-app
+
+# Define an Ingress to route traffic to the Redis application in the 'devops' namespace
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  # Name of the Ingress
+  name: devops-app-ingress
+  # Namespace where the Ingress will be created
+  namespace: devops
+  # Annotations to define the Ingress class (traefik)
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  # Routing rules of the Ingress
+  rules:
+  - host: "www.192.168.1.2.sslip.io"
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          # Backend of the Ingress, redirecting to the 'redis-app' Service on port 8081
+          backend:
+            service:
+              name: redis-app
+              port:
+                number: 8081

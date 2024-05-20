@@ -1,15 +1,19 @@
 ---
+# Playbook to configure a database server
 - name: Configurar servidor de banco de dados
-  hosts: db01
+  hosts: db01  # Target host where the playbook will be executed
 
-  user: vagrant
-  become: yes
+  user: vagrant  # User to perform tasks
+  become: yes  # Become root to execute privileged tasks
+
   vars_files:
-    - vars/main.yml
+    - vars/main.yml  # Include variable file for additional configuration
+
   vars:
-    - dbname: "db01"
-    - dbusername: "root"
-    - dbpassword: "devopsmaonamassa"
+    - dbname: "db01"  # Database name
+    - dbusername: "root"  # Database username
+    - dbpassword: "devopsmaonamassa"  # Database password
+
   roles:
-    - configuracao-default-so
-    - role: geerlingguy.mysql
+    - configuracao-default-so  # Include role to perform default OS configuration
+    - role: geerlingguy.mysql  # Include role to configure MySQL server

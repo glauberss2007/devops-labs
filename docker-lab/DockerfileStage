@@ -1,0 +1,39 @@
+# Stage 1: Build Stage
+FROM maven:3.5-jdk-8 as buildstage
+
+# Create a directory for the application and set it as the working directory
+RUN mkdir /opt/note
+WORKDIR /opt/note
+
+# Clone the Git repository containing the application source code
+RUN git clone https://github.com/callicoder/spring-boot-mysql-rest-api-tutorial.git /opt/note
+
+# Build the application package, skipping tests
+RUN mvn package -Dmaven.test.skip=true
+
+# Stage 2: Runtime Stage
+FROM openjdk:8-jdk-alpine
+
+# Create a non-root user and group for running the application
+RUN addgroup -S notes && adduser -S notes -G notes
+
+# Create a directory for the application
+RUN mkdir /opt/note
+
+# Change ownership of the application directory to the non-root user
+RUN chown -R notes:notes /opt/note
+
+# Switch to the non-root user
+USER notes:notes
+
+# Set the working directory to the application directory
+WORKDIR /opt/note
+
+# Copy the built application JAR from the build stage
+COPY --from=buildstage /opt/note/target/easy-notes-1.0.0.jar .
+
+# Copy the application properties file
+COPY application.properties application.properties
+
+# Specify the entrypoint command to run the application
+ENTRYPOINT ["java","-jar","/opt/note/easy-note.jar"]

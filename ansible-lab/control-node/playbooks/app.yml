@@ -1,74 +1,102 @@
 ---
+# Playbook to configure a Java application server
 - name: Configurar servidor de aplicação Java
-  hosts: app01
-
-  user: vagrant
-  become: yes
+  hosts: app01  # Target host where the playbook will be executed
+  
+  user: vagrant  # User to perform tasks
+  become: yes  # Become root to execute privileged tasks
 
   vars:
-    - dbhost: "db01"
-    - dbname: "notes"
-    - dbusername: "notesapp"
-    - dbpassword: "devopsmaonamassa"
+    - dbhost: "db01"  # Database host
+    - dbname: "notes"  # Database name
+    - dbusername: "notesapp"  # Database username
+    - dbpassword: "devopsmaonamassa"  # Database password
+
   tasks:
+    # Task to add an application user
     - name: Adicionar usuario de app
       user:
         name: app
         comment: Usuario de aplicação
         uid: 500
+
+    # Task to install Maven
     - name: Instalação do Maven
       yum:
         name: maven
         state: latest
+
+    # Task to install Java
     - name: Instalação do Java
       yum:
         name: java-1.8.0-openjdk
         state: latest
+
+    # Task to create the app directory
     - name: Criação do diretório de app
       file:
         path: /opt/notes
         state: directory
         owner: app
         group: app
+
+    # Task to install Git client
     - name: instalacao do git client
       yum:
         name: git
         state: latest
+
+    # Task to clone the Notes repository
     - name: Clone do repositório Notes - app
       git:
         repo: 'https://github.com/callicoder/spring-boot-mysql-rest-api-tutorial.git'
         dest: /opt/notes
         clone: yes
         force: yes
+
+    # Task to configure the properties file for the database layer
     - name: Configurar arquivo de propriedades para camada de banco de dados
       template:
         src: application.properties
         dest: /opt/notes/src/main/resources/application.properties
+
+    # Task to generate the application package
     - name: Gerar pacote da aplicação
       command: mvn -f /opt/notes/pom.xml package
       become_user: app
+
+    # Task to register the current package version
     - name: Registrar versao atual do pacote
       shell:
         cmd: mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\['
         chdir: /opt/notes/
       register: app_version
+
+    # Task to configure the Systemd service
     - name: Configurar serviço do Systemd
       template:
         src: etc/systemd/system/notes.service
         dest: /etc/systemd/system/notes.service
       notify: reload daemon
+
+    # Task to start the notes service
     - name: Iniciar serviço notes
       service:
         name: notes
         state: restarted
+
   roles:
-      - configuracao-default-so
+    - configuracao-default-so  # Include role to perform default OS configuration
+
   handlers:
+    # Handler to reload the application service
     - name: reload app
       systemd:
         state: restarted
         daemon_reload: yes 
         name: 'notes'
+
+    # Handler to reload the systemd daemon
     - name: reload daemon
       systemd:
         daemon_reexec: yes

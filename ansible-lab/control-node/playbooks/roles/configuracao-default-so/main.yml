@@ -1,17 +1,19 @@
 - name: Upgrade de todos os pacotes do s.o
   yum:
-    name: '*'
+    name: '*'    # Update all packages
     state: latest
+
 - name: instalacao do git client
   yum:
-    name: git
+    name: git    # Install Git client
     state: latest
+
 - name: Configurar hosts lab ansible
-      lineinfile: 
-        dest: /etc/hosts
-        state: present
-        line: "{{item}}"
-      with_items:
-        - 192.168.1.2 control-node
-        - 192.168.1.3 app01
-        - 192.168.1.4 db01
+  lineinfile: 
+    dest: /etc/hosts    # Path to the hosts file
+    state: present      # Ensure the line is present
+    line: "{{item}}"   # Line to add to the hosts file
+  with_items:
+    - 192.168.1.2 control-node    # IP and hostname for control node
+    - 192.168.1.3 app01           # IP and hostname for application server
+    - 192.168.1.4 db01            # IP and hostname for database server

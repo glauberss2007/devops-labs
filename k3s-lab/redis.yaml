@@ -1,0 +1,57 @@
+# Define a Deployment for Redis
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # Name of the Deployment
+  name: redis-server
+  # Labels to identify the Deployment
+  labels:
+    app: redis
+spec:
+  # Selects pods with the label app=redis
+  selector:
+    matchLabels:
+      app: redis
+  # Define the number of replicas to 1
+  replicas: 1
+  # Template for the pods
+  template:
+    metadata:
+      # Labels to identify the pods
+      labels:
+        app: redis
+    spec:
+      # Containers in the pod
+      containers: 
+        - name: redis-server
+          # Docker image to be used
+          image: redis
+          # Resources requested by the container
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          # Ports exposed by the container
+          ports:
+          - containerPort: 6379
+            protocol: TCP
+
+---
+# Define a Service to access Redis
+apiVersion: v1
+kind: Service
+metadata:
+  # Name of the Service
+  name: redis-server
+  # Labels to identify the Service
+  labels:
+    app: redis
+spec:
+  # Define the ports exposed by the Service
+  ports:
+  - port: 6379
+    targetPort: 6379
+    protocol: TCP
+  # Selects pods with the label app=redis
+  selector:
+    app: redis

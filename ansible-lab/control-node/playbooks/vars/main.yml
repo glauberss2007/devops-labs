@@ -1,10 +1,15 @@
+# MySQL root password
 mysql_root_password: devopsmaonamassa
+
+# List of databases to be created
 mysql_databases:
-  - name: notes
-    encoding: latin1
-    collation: latin1_general_ci
+  - name: notes             # Name of the database
+    encoding: latin1        # Character encoding for the database
+    collation: latin1_general_ci  # Collation for the database
+
+# List of MySQL users to be created
 mysql_users:
-  - name: notesapp
-    host: "%"
-    password: devopsmaonamassa
-    priv: "notes.*:ALL"
+  - name: notesapp          # Username
+    host: "%"               # Host from which the user can connect ("%": any host)
+    password: devopsmaonamassa  # Password for the user
+    priv: "notes.*:ALL"     # Privileges granted to the user (in this case, all privileges on the 'notes' database)

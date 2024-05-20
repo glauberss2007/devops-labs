@@ -1,8 +1,17 @@
-
+# Initialize Vagrant configuration
 Vagrant.configure("2") do |config|
+  # Specify the base box for the VM
   config.vm.box = "centos/7"
+
+  # Set the hostname of the VM
   config.vm.hostname = "control-node"
+
+  # Create a private network with a specific IP address
   config.vm.network "private_network", ip: "192.168.1.2"
+
+  # Sync the current directory to /vagrant in the VM using NFS
   config.vm.synced_folder ".", "/vagrant", type: "nfs"
-  config.vm.provision "shell", path: "provision.sh" 
+
+  # Provision the VM using a shell script
+  config.vm.provision "shell", path: "provision.sh"
 end
